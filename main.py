@@ -7,54 +7,49 @@ from kivy.uix.button import Button
 from kivy.uix.image import Image
 from kivy.core.window import Window
 from datetime import datetime
+from kivy.lang import Builder
+from kivy.uix.screenmanager import ScreenManager, Screen
 
+from kivy.properties import NumericProperty, StringProperty
+import json
 
 #bei versions problemen
 #kivy.require("1.9.0")
 
+class WindowManager(ScreenManager):
+    pass
+
+class EntryWindow(Screen):
+    date_time = StringProperty(0)
+
+    def on_enter(self):
+        now = datetime.now()
+        self.date_time = now.strftime("%m/%d/%Y, %H:%M:%S")
+    
+    def getFilename(self):
+        now = datetime.now()
+        return now.strftime("%m-%d-%Y")
+
+    def saveFile(self, text):
+        data = {"text":text, "datetime":self.date_time}
+        with open("dreams/"+self.getFilename(), "w") as json_file:
+            json.dump(data, json_file, indent=4)
+
+class ListWindow(Screen):
+    pass
+
+kv = Builder.load_file("Screens.kv")
 class MainApp(App):
     
     def build(self):
         #window
         #Window.size = (300, 100)
+        return kv
 
-        #grid
-        window = GridLayout()
-        window.cols = 1
-        window.size_hint = (1, 1)
-        window.pos_hint = {"center_x":0.5, "center_y":0.5}
+    
+    def deleteAll(self, instance):
+        self.textfield.text = ""
 
-        #date
-        now = datetime.now()
-        date_time = now.strftime("%m/%d/%Y, %H:%M:%S")
-        date = Label(text=date_time)
-        date.size_hint = (1, 0.2)
-        window.add_widget(date)
-
-        #textfield
-        textfield = TextInput(multiline=True, padding= (10, 0, 10, 0))
-        textfield.size_hint = (1, 1)
-        #textfield.padding= (10, 0, 10, 0)
-        window.add_widget(textfield)
-
-        #buttonfield
-        buttonfield = GridLayout()
-        buttonfield.cols = 2
-        buttonfield.size_hint = (1, 0.2)
-
-
-
-
-        #buttons
-        deletebutton = Button(text="delete")
-        buttonfield.add_widget(deletebutton)
-        finishbutton = Button(text="finish")
-        buttonfield.add_widget(finishbutton)
-
-        window.add_widget(buttonfield)
-
-
-        return window
     
 
 myApp = MainApp()

@@ -1,0 +1,60 @@
+WindowManager:
+    EntryWindow:
+    ListWindow:
+
+<EntryWindow>:
+    name: "entry"
+
+    GridLayout:
+        cols:1
+
+        GridLayout:
+            cols:2
+            size_hint:1.0, 0.1
+            Button:
+                size_hint:0.2, 1.0
+                text: "Home"
+                on_release: 
+                    app.root.current ="list"
+                    root.manager.transition.direction = "down"
+
+            Label:
+                id: dateLabel
+                text: root.date_time
+                
+
+        TextInput:
+            id: textfield
+            multiline:True
+        
+        GridLayout:
+            cols:2
+            size_hint:1.0, 0.2
+            Button:
+                text: "Delete"
+                on_release: 
+                    textfield.text = ""
+            Button:
+                text: "Submit"
+                on_release:
+                    root.saveFile(textfield.text)
+
+<ListWindow>:
+    name: "list"
+
+    GridLayout:
+        cols:1
+
+        Label:
+            text: "Your Dreams"
+            size_hint:1.0, 0.2
+
+        GridLayout:
+            cols:1
+
+        Button:
+            size_hint:1.0, 0.2
+            text: "Go Back"
+            on_release: 
+                app.root.current ="entry"
+                root.manager.transition.direction = "up"
