@@ -14,11 +14,11 @@ from kivy.uix.recycleview import RecycleView
 from kivy.properties import NumericProperty, StringProperty
 import json
 import os
-
+from functools import partial
 #bei versions problemen
 #kivy.require("1.9.0")
 
-currnetDreamView = StringProperty(0)
+
 
 class WindowManager(ScreenManager):
     pass
@@ -27,8 +27,11 @@ class EntryWindow(Screen):
     date_time = StringProperty(0)
 
     def on_enter(self):
-        now = datetime.now()
-        self.date_time = now.strftime("%m/%d/%Y  %H:%M")
+        if(self.date_time == "test"):
+            print("damn")
+        else:
+            now = datetime.now()
+            self.date_time = now.strftime("%m/%d/%Y  %H:%M")
 
     def getFilename(self):
         now = datetime.now()
@@ -42,9 +45,26 @@ class EntryWindow(Screen):
         popup.size_hint = (0.8, 0.2)
         popup.open()
 
+class ViewWindow(Screen):
+    view_date = StringProperty("test")
+    view_text = StringProperty("...")
+    def on_enter(self):
+        self.view_date = str(self.view_date)
+        with open("dreams/"+self.view_date) as json_file:
+            data = json.load(json_file)
+            self.view_text = data["text"]
+    pass
+
+
+
 class ListWindow(Screen):
     dreams = []
 
+    def view(self, instance):
+        self.manager.screens[2].view_date = str(instance.id)
+        self.manager.transition.direction = "up"
+        self.manager.current ="view"
+        pass
 
     def on_enter(self):
         self.dreams = []
@@ -72,6 +92,10 @@ class ListWindow(Screen):
                 DreamButtonEdit.background_color = (0.5, 0.7, 0.7, 0.7)
                 DreamButtonEdit.size_hint = (0.15, 0.1)
                 DreamButtonView.size_hint = (0.15, 0.1)
+                DreamButtonView.id = file_name
+                #buttoncallback = partial(self.view(text="test"), "test")
+                DreamButtonView.bind(on_press=self.view)
+
                 DreamLabel.size_hint = (0.7, 0.1)
                 DreamColumn.size_hint = (1.0, 0.1)
                 DreamColumn.add_widget(DreamLabel)
@@ -80,6 +104,8 @@ class ListWindow(Screen):
                 self.ids.dreamsList.add_widget(DreamColumn)
         print(self.dreams)
         pass
+
+
 
 kv = Builder.load_file("Screens.kv")
 class MainApp(App):

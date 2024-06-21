@@ -1,6 +1,7 @@
 WindowManager:
     EntryWindow:
     ListWindow:
+    ViewWindow:
 
 <EntryWindow>:
     name: "entry"
@@ -97,6 +98,57 @@ WindowManager:
             background_color: 0.5, 0.7, 0.7, 0.7
             size_hint:1.0, 0.1
             text: "Today's entry"
-            on_release: 
+            on_release:
                 app.root.current ="entry"
                 root.manager.transition.direction = "up"
+
+
+<ViewWindow>: 
+    name: "view"
+    GridLayout:
+        cols:1
+        canvas.before:
+            Color:
+                rgba: 0.5, 0.7, 0.7, 1
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        GridLayout:
+            cols:2
+            size_hint:1.0, 0.1
+            Button:
+                background_color: 0.5, 0.7, 0.7, 0.7
+                size_hint:0.2, 1.0
+                text: ""
+                on_release: 
+                    app.root.current ="list"
+                    root.manager.transition.direction = "down"
+                Image:
+                    source: 'icons/home.png'
+                    center_x : self.parent.center_x
+                    center_y : self.parent.center_y
+                    height: 40
+                    size_hint_x: None
+                    allow_stretch: True
+
+            Label:
+                font_color: 0.5, 0.7, 0.7, 1
+                font_size: 18
+                size_hint:0.8, 1.0
+                id: view_date_label
+                text: root.view_date
+
+        GridLayout:
+            cols:1
+            size_hint:1.0, 0.9
+            Label:
+                font_color: 0.5, 0.7, 0.7, 1
+                font_size: 18
+                id: view_text_label
+                text: root.view_text
+                text_size: self.size
+                halign: "left"
+                valign: "top"
+                padding: 10,10,10,10
+        
