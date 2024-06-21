@@ -18,6 +18,8 @@ import os
 #bei versions problemen
 #kivy.require("1.9.0")
 
+currnetDreamView = StringProperty(0)
+
 class WindowManager(ScreenManager):
     pass
 
@@ -26,7 +28,7 @@ class EntryWindow(Screen):
 
     def on_enter(self):
         now = datetime.now()
-        self.date_time = now.strftime("%m/%d/%Y, %H:%M:%S")
+        self.date_time = now.strftime("%m/%d/%Y  %H:%M")
 
     def getFilename(self):
         now = datetime.now()
@@ -48,9 +50,34 @@ class ListWindow(Screen):
         self.dreams = []
         self.ids.dreamsList.clear_widgets()
         files = os.listdir("dreams/")
-        for file_name in files:
-            self.dreams.append(file_name)
-            self.ids.dreamsList.add_widget(Label(text=file_name))
+        start = 0
+        i = 0
+        for i in range(start, start+10):
+            #maximal 10 Einträge anzeigen
+            if(i>=len(files)):
+                #add Empty Grid
+                DreamColumn = GridLayout()
+                DreamColumn.cols=1
+                DreamColumn.size_hint = (1.0, 0.1)
+                self.ids.dreamsList.add_widget(DreamColumn)
+            else:
+                file_name = files[i]
+                self.dreams.append(file_name)
+                DreamColumn = GridLayout()
+                DreamColumn.cols=3
+                DreamLabel = Label(text="Dream from "+file_name)
+                DreamButtonView = Button(text="View")
+                DreamButtonEdit = Button(text="Edit")
+                DreamButtonView.background_color = (0.5, 0.7, 0.7, 0.7)
+                DreamButtonEdit.background_color = (0.5, 0.7, 0.7, 0.7)
+                DreamButtonEdit.size_hint = (0.15, 0.1)
+                DreamButtonView.size_hint = (0.15, 0.1)
+                DreamLabel.size_hint = (0.7, 0.1)
+                DreamColumn.size_hint = (1.0, 0.1)
+                DreamColumn.add_widget(DreamLabel)
+                DreamColumn.add_widget(DreamButtonView)
+                DreamColumn.add_widget(DreamButtonEdit)
+                self.ids.dreamsList.add_widget(DreamColumn)
         print(self.dreams)
         pass
 
