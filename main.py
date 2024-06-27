@@ -38,6 +38,8 @@ class EntryWindow(Screen):
         return now.strftime("%m-%d-%Y")
 
     def saveFile(self, text):
+        if not os.path.exists("dreams/"):
+            os.mkdir("dreams/")
         data = {"text":text, "datetime":self.date_time}
         with open("dreams/"+self.getFilename(), "w") as json_file:
             json.dump(data, json_file, indent=4)
@@ -67,6 +69,8 @@ class ListWindow(Screen):
         pass
 
     def on_enter(self):
+        if not os.path.exists("dreams/"):
+            os.mkdir("dreams/")
         self.dreams = []
         self.ids.dreamsList.clear_widgets()
         files = os.listdir("dreams/")
@@ -86,8 +90,11 @@ class ListWindow(Screen):
                 DreamColumn = GridLayout()
                 DreamColumn.cols=3
                 DreamLabel = Label(text="Dream from "+file_name)
+                DreamLabel.font_size = '17sp'
                 DreamButtonView = Button(text="View")
                 DreamButtonEdit = Button(text="Edit")
+                DreamButtonView.font_size = '20sp'
+                DreamButtonEdit.font_size = '20sp'
                 DreamButtonView.background_color = (0.5, 0.7, 0.7, 0.7)
                 DreamButtonEdit.background_color = (0.5, 0.7, 0.7, 0.7)
                 DreamButtonEdit.size_hint = (0.15, 0.1)

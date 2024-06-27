@@ -31,13 +31,13 @@ WindowManager:
                     source: 'icons/home.png'
                     center_x : self.parent.center_x
                     center_y : self.parent.center_y
-                    height: 40
+                    height: '40sp'
                     size_hint_x: None
                     allow_stretch: True
 
             Label:
                 font_color: 0.5, 0.7, 0.7, 1
-                font_size: 18
+                font_size: '25sp'
                 size_hint:0.8, 1.0
                 id: dateLabel
                 text: root.date_time
@@ -47,12 +47,13 @@ WindowManager:
         TextInput:
             id: textfield
             multiline:True
+            font_size: '20sp'
             cursor_color: 0.5, 0.7, 0.7, 1
             foreground_color: 0.5, 0.7, 0.7, 1
         
         GridLayout:
             cols:2
-            size_hint:1.0, 0.2
+            size_hint:1.0, 0.15
             Button:
                 background_color: 0.5, 0.7, 0.7, 0.7
                 text: ""
@@ -62,11 +63,12 @@ WindowManager:
                     source: 'icons/delete.png'
                     center_x : self.parent.center_x
                     center_y : self.parent.center_y
-                    height: 40
+                    height: '40sp'
                     size_hint_x: None
                     allow_stretch: True
     
             Button:
+                font_size: '20sp'
                 text: "Submit"
                 on_release:
                     root.saveFile(textfield.text)
@@ -84,7 +86,7 @@ WindowManager:
                 pos: self.pos
                 size: self.size
         Label:
-            font_size: 22
+            font_size: '30sp'
             text: "Your Dreams"
             size_hint:1.0, 0.1
 
@@ -97,6 +99,7 @@ WindowManager:
         Button:
             background_color: 0.5, 0.7, 0.7, 0.7
             size_hint:1.0, 0.1
+            font_size: '20sp'
             text: "Today's entry"
             on_release:
                 app.root.current ="entry"
@@ -128,13 +131,13 @@ WindowManager:
                     source: 'icons/home.png'
                     center_x : self.parent.center_x
                     center_y : self.parent.center_y
-                    height: 40
+                    height: '40sp'
                     size_hint_x: None
                     allow_stretch: True
 
             Label:
                 font_color: 0.5, 0.7, 0.7, 1
-                font_size: 18
+                font_size: '25sp'
                 size_hint:0.8, 1.0
                 id: view_date_label
                 text: root.view_date
@@ -144,7 +147,7 @@ WindowManager:
             size_hint:1.0, 0.9
             Label:
                 font_color: 0.5, 0.7, 0.7, 1
-                font_size: 18
+                font_size: '17sp'
                 id: view_text_label
                 text: root.view_text
                 text_size: self.size
