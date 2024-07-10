@@ -76,7 +76,7 @@ class ListWindow(Screen):
         files = os.listdir("dreams/")
         start = 0
         i = 0
-        for i in range(start, start+10):
+        for i in range(len(files)):
             #maximal 10 Einträge anzeigen
             if(i>=len(files)):
                 #add Empty Grid
@@ -88,7 +88,7 @@ class ListWindow(Screen):
                 file_name = files[i]
                 self.dreams.append(file_name)
                 DreamColumn = GridLayout()
-                DreamColumn.cols=3
+                DreamColumn.cols=2
                 DreamLabel = Label(text="Dream from "+file_name)
                 DreamLabel.font_size = '17sp'
                 DreamButtonView = Button(text="View")
@@ -104,7 +104,7 @@ class ListWindow(Screen):
                 DreamColumn.add_widget(DreamLabel)
                 DreamColumn.add_widget(DreamButtonView)
                 self.ids.dreamsList.add_widget(DreamColumn)
-        
+
         print(self.dreams)
 
 
