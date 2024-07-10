@@ -15,6 +15,8 @@ from kivy.properties import NumericProperty, StringProperty
 import json
 import os
 from functools import partial
+
+from kivy.uix.scrollview import ScrollView
 #bei versions problemen
 #kivy.require("1.9.0")
 
@@ -57,8 +59,6 @@ class ViewWindow(Screen):
             self.view_text = data["text"]
     pass
 
-
-
 class ListWindow(Screen):
     dreams = []
 
@@ -67,7 +67,7 @@ class ListWindow(Screen):
         self.manager.transition.direction = "up"
         self.manager.current ="view"
         pass
-
+    
     def on_enter(self):
         if not os.path.exists("dreams/"):
             os.mkdir("dreams/")
@@ -92,12 +92,8 @@ class ListWindow(Screen):
                 DreamLabel = Label(text="Dream from "+file_name)
                 DreamLabel.font_size = '17sp'
                 DreamButtonView = Button(text="View")
-                DreamButtonEdit = Button(text="Edit")
                 DreamButtonView.font_size = '20sp'
-                DreamButtonEdit.font_size = '20sp'
                 DreamButtonView.background_color = (0.5, 0.7, 0.7, 0.7)
-                DreamButtonEdit.background_color = (0.5, 0.7, 0.7, 0.7)
-                DreamButtonEdit.size_hint = (0.15, 0.1)
                 DreamButtonView.size_hint = (0.15, 0.1)
                 DreamButtonView.id = file_name
                 #buttoncallback = partial(self.view(text="test"), "test")
@@ -107,11 +103,9 @@ class ListWindow(Screen):
                 DreamColumn.size_hint = (1.0, 0.1)
                 DreamColumn.add_widget(DreamLabel)
                 DreamColumn.add_widget(DreamButtonView)
-                DreamColumn.add_widget(DreamButtonEdit)
                 self.ids.dreamsList.add_widget(DreamColumn)
+        
         print(self.dreams)
-        pass
-
 
 
 kv = Builder.load_file("Screens.kv")
